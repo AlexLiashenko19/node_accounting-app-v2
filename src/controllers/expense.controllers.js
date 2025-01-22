@@ -24,11 +24,11 @@ const createExpense = (req, res) => {
   const user = userService.getUserById(+userId);
 
   if (!user) {
-    return res.sendStatus(400);
+    return res.status(400).send('User not found');
   }
 
   if (!userId || !spentAt || !title || !amount || !category) {
-    return res.sendStatus(400);
+    return res.status(400).send('Missing required parameters');
   }
 
   const expense = expenseService.createExp({
@@ -50,7 +50,7 @@ const updateExpense = (req, res) => {
   const expense = expenseService.getExpById(id);
 
   if (!expense) {
-    return res.status(404).send('Error');
+    return res.status(404).send('Expense not found');
   }
 
   const updatedExpense = expenseService.updateExp(id, {
@@ -68,7 +68,7 @@ const removeExpense = (req, res) => {
   const { id } = req.params;
 
   if (!expenseService.getExpById(id)) {
-    return res.status(404).send('Error');
+    return res.status(404).send('Expense not found');
   }
 
   expenseService.removeExp(id);

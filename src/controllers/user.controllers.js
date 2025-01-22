@@ -11,7 +11,7 @@ const getOneUser = (req, res) => {
   const user = userService.getUserById(+id);
 
   if (!user) {
-    return res.status(404).send('Error');
+    return res.status(404).send('User not found');
   }
   res.send(user);
 };
@@ -39,7 +39,7 @@ const updateUser = (req, res) => {
   }
 
   if (typeof name !== 'string') {
-    return res.status(422).send('Error');
+    return res.status(422).send('Invalid name type');
   }
 
   const updatedUser = userService.updateUser({ id: +id, name });
@@ -51,7 +51,7 @@ const removeUser = (req, res) => {
   const { id } = req.params;
 
   if (!userService.getUserById(+id)) {
-    return res.status(404).send('Error');
+    return res.status(404).send('User not found');
   }
 
   userService.removeUser(+id);

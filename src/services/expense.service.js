@@ -17,16 +17,12 @@ const getAllExp = (userId, categories, from, to) => {
     expList = expList.filter((exp) => categories.includes(exp.category));
   }
 
-  if (from && to) {
-    expList = expList.filter((exp) => exp.spentAt >= from && exp.spentAt <= to);
+  if (from) {
+    expList = expList.filter((exp) => exp.spentAt >= from);
   }
 
   if (to) {
     expList = expList.filter((exp) => exp.spentAt <= to);
-  }
-
-  if (from) {
-    expList = expList.filter((exp) => exp.spentAt >= from);
   }
 
   return expList;
@@ -54,6 +50,13 @@ const createExp = ({ userId, spentAt, title, amount, category, note }) => {
 
 const updateExp = (id, { spentAt, title, amount, category, note }) => {
   const expense = getExpById(id);
+
+  if (!expense) {
+    return {
+      error: true,
+      message: `Expense with ID ${id} not found.`,
+    };
+  }
 
   Object.assign(expense, {
     spentAt,

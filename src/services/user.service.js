@@ -27,6 +27,13 @@ const createUser = (name) => {
 const updateUser = ({ id, name }) => {
   const user = getUserById(id);
 
+  if (!user) {
+    return {
+      error: true,
+      message: `User  with ID ${id} not found.`,
+    };
+  }
+
   Object.assign(user, { name });
 
   return user;
